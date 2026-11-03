@@ -28,6 +28,22 @@ jobs:
         shell: cmd
 
     steps:
+      # Qt debug + release with PDBs does not fit on the image's C: as shipped
+      # (C1088 "Cannot flush compiler intermediate file" in Qt release).
+      - name: Free disk space.
+        shell: pwsh
+        run: |
+          Get-PSDrive C, D -ErrorAction SilentlyContinue | Format-Table Name, @{n='FreeGB';e={[int]($_.Free/1GB)}}, @{n='UsedGB';e={[int]($_.Used/1GB)}}
+          $dirs = @(
+            'C:\Android', 'C:\ghcup', 'C:\Program Files\MongoDB', 'C:\Program Files\Microsoft SQL Server',
+            'C:\Program Files\PostgreSQL', 'C:\Program Files\MySQL', 'C:\Program Files (x86)\Android',
+            'C:\SeleniumWebDrivers', 'C:\Program Files\Azure Cosmos DB Emulator', 'C:\Rust', 'C:\Users\runneradmin\.rustup',
+            'C:\hostedtoolcache\windows\go', 'C:\hostedtoolcache\windows\Ruby', 'C:\hostedtoolcache\windows\PyPy',
+            'C:\hostedtoolcache\windows\node', 'C:\Julia', 'C:\Program Files\R'
+          )
+          foreach ($d in $dirs) { if (Test-Path $d) { cmd /c "rmdir /s /q `"$d`"" 2>$null } }
+          Get-PSDrive C, D -ErrorAction SilentlyContinue | Format-Table Name, @{n='FreeGB';e={[int]($_.Free/1GB)}}, @{n='UsedGB';e={[int]($_.Used/1GB)}}
+
       - name: Prepare directories.
         run: |
           mkdir %userprofile%\TBuild\Libraries
