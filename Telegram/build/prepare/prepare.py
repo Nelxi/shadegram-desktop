@@ -1439,6 +1439,7 @@ win:
     SET "ToolsetProp="
 win64:
     SET "FolderPostfix=_x64"
+    SET "ToolsetProp=/property:PlatformToolset=v145"
 winarm:
     SET "FolderPostfix=_ARM64"
     SET "ToolsetProp=/property:PlatformToolset=v145"
