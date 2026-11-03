@@ -120,6 +120,9 @@ set(ayugram_files
         ayu/ayu_lang.h
         ayu/ayu_infra.cpp
         ayu/ayu_infra.h
+        shadegram/shadegram_background.cpp
+        shadegram/shadegram_background.h
+        shadegram/shadegram_default_shader.h
         ayu/utils/ayu_mapper.cpp
         ayu/utils/ayu_mapper.h
         ayu/utils/qt_key_modifiers_extended.h

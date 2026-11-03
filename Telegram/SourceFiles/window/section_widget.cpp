@@ -7,6 +7,8 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 */
 #include "window/section_widget.h"
 
+#include "shadegram/shadegram_background.h"
+
 #include "mainwidget.h"
 #include "mainwindow.h"
 #include "ui/ui_utility.h"
@@ -381,6 +383,7 @@ void SectionWidget::PaintBackground(
 		int fromy,
 		QRect clip,
 		bool paused) {
+	Shadegram::Track(widget);
 	auto p = QPainter(widget);
 	if (fromy) {
 		p.translate(0, fromy);
@@ -396,6 +399,9 @@ void SectionWidget::PaintBackground(
 		QSize fill,
 		QRect clip,
 		bool paused) {
+	if (Shadegram::PaintBackground(p, fill, clip)) {
+		return;
+	}
 	const auto &background = theme->background();
 	if (background.colorForFill) {
 		p.fillRect(clip, *background.colorForFill);
